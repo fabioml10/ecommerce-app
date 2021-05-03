@@ -1,0 +1,12 @@
+.background {
+  background-color: var(--color-primary);
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+.name {
+  color: var(--color-gray-light);
+  font-size: 0.9rem;
+  margin-right: 10px;
+}
