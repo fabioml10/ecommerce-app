@@ -1,9 +1,17 @@
-import React from 'react';
 
-const TitleAndPath: React.FC = () => {
+import React from 'react';
+import styles from '../../../../styles/TitleAndPath.module.css';
+
+interface TitleAndPath {
+  title: String,
+  path: String
+}
+
+const TitleAndPath: React.FC<TitleAndPath> = ({ title, path }) => {
   return (
     <>
-
+      <h4 className={styles.title}>{title}</h4>
+      <span className={styles.styledPath}>{path}</span>
     </>
   )
 }
