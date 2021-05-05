@@ -12,7 +12,7 @@ const LateralMenu: React.FC = () => {
       <Logo />
       <div className={styles.list}>
         <div className={styles.list}>
-          <Link href="/Admin">
+          <Link href="/admin">
             <a>
               <FontAwesomeIcon icon={faSignal} color="var(--color-gray-light)" className="mr-3" />
               Painel Inicial
@@ -26,7 +26,7 @@ const LateralMenu: React.FC = () => {
               <hr />
             </a>
           </Link>
-          <Link href="/Admin/Products/List">
+          <Link href="/admin/products/list">
             <a>
               <FontAwesomeIcon icon={faGamepad} color="var(--color-gray-light)" className="mr-3" />
               Produtos
