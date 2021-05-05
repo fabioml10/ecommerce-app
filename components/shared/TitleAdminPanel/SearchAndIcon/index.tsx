@@ -15,7 +15,7 @@ import {
 
 import { useRouter } from 'next/router';
 
-import styles from '../../../../styles/AdminTitle.module.css';
+import styles from '../../../../styles/TitleAdminPanel.module.css';
 
 interface SearchAndIcon {
   icon: IconProp;
