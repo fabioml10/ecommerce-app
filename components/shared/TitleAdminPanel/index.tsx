@@ -4,7 +4,7 @@ import TitleAndPath from './TitleAndPath'
 import SearchAndIcon from './SearchAndIcon'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
-import styles from '../../../styles/TitleAdminPanel.module.css'
+import styles from './styles.module.css'
 
 interface TitleAdminPanelProps {
   title: string;

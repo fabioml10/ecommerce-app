@@ -7,10 +7,12 @@ import StyledButton from '../../shared/StyledButton';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 
-import styles from '../../../styles/AdminPanel.module.css';
 import Category from '../../../dtos/Category';
 
 import { clearCategoryToEdit } from '../../../store/modules/admin/category/reducer';
+
+import styles from '../styles.module.css';
+
 
 // para que possamos reutilizar o form, necessitaremos de receber o método que será executado quando form for submetido (um para a criação e outro para a atualização da categoria) e também o texto do botão de confirmação (action) que é opcional
 interface CategoryFormProps {
