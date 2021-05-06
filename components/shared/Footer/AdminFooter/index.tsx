@@ -2,6 +2,8 @@ import React from 'react'
 import { Col, Row, Container } from 'react-bootstrap'
 import Logo from '../../Logo'
 
+import styles from './styles.module.css'
+
 const AdminFooter: React.FC = () => {
   return (
     <Container className="p-4">

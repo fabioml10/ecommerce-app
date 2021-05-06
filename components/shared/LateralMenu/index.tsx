@@ -6,6 +6,8 @@ import Link from 'next/link';
 
 import { useRouter } from 'next/router';
 
+import SignOutService from '../../../util/SignOutService';
+
 import styles from './styles.module.css';
 
 const LateralMenu: React.FC = () => {
@@ -65,8 +67,8 @@ const LateralMenu: React.FC = () => {
               <hr />
             </a>
           </Link>
-          <Link href="/admin/#">
-            <a className={router.pathname === '/admin/#' ? styles.active : ''}>
+          <Link href="/auth/login" >
+            <a onClick={SignOutService.execute}>
               <FontAwesomeIcon icon={faSignOutAlt} color="var(--color-gray-light)" className="mr-3" />
               Sair
               <hr />

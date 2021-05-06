@@ -25,6 +25,8 @@ interface SearchAndIcon {
 const SearchAndIcon: React.FC<SearchAndIcon> = ({ icon, newPath }) => {
   // criamos um estado para podermos receber o que o usuário digitou no input de pesquisa
   const [search, setSearch] = useState('');
+  const [placeholder, setPlaceholder] = useState('');
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -32,6 +34,26 @@ const SearchAndIcon: React.FC<SearchAndIcon> = ({ icon, newPath }) => {
   useEffect(() => {
     dispatch(clearSearch());
   }, [])
+
+  useEffect(() => {
+    switch (router.pathname) {
+      case '/admin/products/list':
+        setPlaceholder('Pesquisar produto');
+        break;
+      case '/admin/categories/list':
+        setPlaceholder('Pesquisar categoria');
+        break;
+      case '/admin/systemrequirements/list':
+        setPlaceholder('Pesquisar requisitos de sistema');
+        break;
+      case '/admin/coupons/list':
+        setPlaceholder('Pesquisar cupom');
+        break;
+      default:
+        setPlaceholder('Pesquisar usuário');
+        break;
+    }
+  }, [router.pathname]);
 
   // método para realizar a tratativa da pesquisa. Ele irá atualizar o valor da pesquisa no redux
   // esse método será chamado quando o usuário der enter no input de pesquisa ou clicar no ícone da pesquisa
@@ -45,12 +67,12 @@ const SearchAndIcon: React.FC<SearchAndIcon> = ({ icon, newPath }) => {
 
   return (
     <Row>
-      <Col lg={9} xs>
+      <Col lg={10} xs>
         <Row>
-          <Col lg={9} xs={10}>
+          <Col lg={10} xs={10}>
             <InputGroup>
               <FormControl
-                placeholder="Pesquisar"
+                placeholder={placeholder}
                 className={styles.input}
                 value={search}
                 onChange={
@@ -67,7 +89,7 @@ const SearchAndIcon: React.FC<SearchAndIcon> = ({ icon, newPath }) => {
                 } />
             </InputGroup>
           </Col>
-          <Col lg={3} xs={2} className={styles.search_icon} style={{ cursor: 'pointer' }}>
+          <Col lg={2} xs={2} className={styles.search_icon}>
             <FontAwesomeIcon
               icon={faSearch}
               size="lg"
