@@ -37,6 +37,11 @@ a {
 	transition: color 0.2s;
 }
 
+a:active, 
+a:active svg {
+  color: var(--color-active);
+}
+
 a:hover {
 	text-decoration: none;
 	color: var(--color-hover);
