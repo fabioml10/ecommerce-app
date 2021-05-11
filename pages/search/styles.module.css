@@ -52,6 +52,14 @@
   color: black;
 }
 
+.pagination {
+  margin-bottom: 20px;
+}
+
+.pagination div {
+  justify-content: center;
+}
+
 @media screen and (max-width: 991px) {
   .title {
     font-size: 1.2em;
@@ -77,3 +85,4 @@
     text-align: center;
   }
 }
+

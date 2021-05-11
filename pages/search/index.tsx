@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import ProductInfo from '../../components/shared/ProductInfo';
+import Pagination from '../../components/shared/Pagination'
 
 import useSwr from 'swr';
 import { useRouter } from 'next/router';
@@ -28,7 +29,7 @@ const Search: React.FC = () => {
     direction
   } = router.query;
 
-  const [search, setSearch] = useState(searchRouter?.toString())
+  const [search, setSearch] = useState(searchRouter?.toString() || '');
   const [order, setOrder] = useState(() => {
     if (!!orderRouter) {
       return `${orderRouter.toString()}-${router.query.direction.toString()}`
@@ -85,7 +86,11 @@ const Search: React.FC = () => {
     toast.error(categoriesError)
   }
 
-  const handleSearch = () => { }
+  const handleSearch = (): void => {
+    router.push(`
+      /search?search=${search}&lentgh=12&page=1&order=price&direction=asc
+    `)
+  }
 
   return (
     <MainComponent>
@@ -226,6 +231,14 @@ const Search: React.FC = () => {
           )
         }
       </Row>
+
+      {
+        data?.meta?.total > 0 &&
+        <Pagination
+          className={styles.pagination}
+          {...data?.meta}
+        />
+      }
 
     </MainComponent>
   )

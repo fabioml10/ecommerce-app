@@ -7,9 +7,13 @@ import { toast } from 'react-toastify'
 import useSwr from 'swr'
 import HomeService from '../services/home'
 
+import { useRouter } from 'next/router';
+
 const Storefront: React.FC = () => {
   const { data, error } = useSwr('/storefront/v1/home', HomeService.index);
   const { featured, last_releases, cheapest } = { ...data };
+
+  const router = useRouter();
 
   if (error) {
     toast.error(error)
@@ -21,7 +25,11 @@ const Storefront: React.FC = () => {
         {
           featured?.slice(0, 3)?.map(
             product => (
-              <Carousel.Item key={product.id}>
+              <Carousel.Item
+                key={product.id}
+                onClick={() => router.push(`/product/${product.id}`)}
+                className={styles.carousel_item}
+              >
                 <img
                   className={`d-block w-100 ${styles.carousel_image}`}
                   src={product.image_url}
@@ -31,38 +39,45 @@ const Storefront: React.FC = () => {
             )
           )
         }
-
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://meups.com.br/wp-content/uploads/2018/01/God-of-War-4-900x503.jpg"
-            alt="Second slide"
-          />
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://meups.com.br/wp-content/uploads/2018/01/God-of-War-4-900x503.jpg"
-            alt="Third slide"
-          />
-        </Carousel.Item>
       </Carousel>
 
       <HighlightedProducts
         title="Ofertas da Semana"
         type="highlighted"
         products={cheapest}
+        handleSeeMore={
+          () => router.push({
+            pathname: '/search',
+            query: {
+              order: 'price',
+              direction: 'asc'
+            }
+          })
+        }
       />
 
       <HighlightedProducts
         title="Lançamentos"
         products={last_releases}
+        handleSeeMore={
+          () => router.push({
+            pathname: '/search',
+            query: {
+              order: 'release_date',
+              direction: 'desc'
+            }
+          })
+        }
       />
 
       <HighlightedProducts
         title="Mais Populares"
         products={featured}
+        handleSeeMore={
+          () => router.push({
+            pathname: '/search',
+          })
+        }
       />
     </MainComponent>
   )

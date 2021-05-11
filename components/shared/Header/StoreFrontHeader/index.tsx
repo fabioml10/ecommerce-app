@@ -17,7 +17,7 @@ const StoreFrontHeader: React.FC = () => {
 
   const handleSearch = (): void => {
     router.push(`
-      /search${ProductSearchService.execute({ search })}
+        /Search?search=${search}&lentgh=12&page=1&order=price&direction=asc
     `);
   }
 

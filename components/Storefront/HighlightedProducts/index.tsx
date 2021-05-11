@@ -9,9 +9,10 @@ interface HighlightedProductsProps {
   title: string;
   type?: string;
   products: ProductHome[];
+  handleSeeMore(event: React.MouseEvent<HTMLElement>): void;
 }
 
-const HighlightedProducts: React.FC<HighlightedProductsProps> = ({ title, type, products }) => {
+const HighlightedProducts: React.FC<HighlightedProductsProps> = ({ title, type, products, handleSeeMore }) => {
   return (
     <div className={styles.products}>
       <Row className={styles.products_header}>
@@ -22,6 +23,7 @@ const HighlightedProducts: React.FC<HighlightedProductsProps> = ({ title, type, 
         <Link href="#">
           <a>
             <Button
+              onClick={handleSeeMore}
               className={
                 `${type === 'highlighted' ? styles.highlighted_button : styles.normal_button}`
               }
