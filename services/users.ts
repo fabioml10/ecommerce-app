@@ -34,7 +34,10 @@ const UsersService = {
     api.post<SignInResponse>('auth/v1/user/sign_in', {
       email,
       password
-    })
+    }),
+  update(user: User) {
+    return api.put(`/admin/v1/users/${user.id}`, { user: user });
+  },
 }
 
 export default UsersService;

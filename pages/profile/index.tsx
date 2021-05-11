@@ -1,18 +1,63 @@
+import { useState } from 'react';
+
 import { Form, Row, Col } from 'react-bootstrap';
 import BlueBackground from '../../components/shared/BlueBackground';
 import MainComponent from '../../components/shared/MainComponent';
 import Menu from '../../components/Storefront/Menu';
 import StyledButton from '../../components/shared/StyledButton';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import withAuth from '../../components/withAuth';
+import { toast } from 'react-toastify';
+
+import { useSelector, useDispatch } from 'react-redux';
+import User from '../../dtos/User';
+import UsersService from '../../services/users';
+import { setLoggedUser } from '../../store/modules/auth/reducer';
 
 import styles from './styles.module.css';
 
 const Profile: React.FC = () => {
+  const user: User = useSelector(state => state.auth.loggedUser);
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
+  const dispatch = useDispatch();
+
+  const handleFormSubmit = async (evt: React.FormEvent): Promise<void> => {
+    evt.preventDefault();
+
+    try {
+      await UsersService.update({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        id: user.id,
+        profile: user.profile
+      });
+
+      toast.info('Usuário atualizado com sucesso!');
+
+      dispatch(setLoggedUser({ name, email, id: user.id, profile: user.profile }));
+    } catch (error) {
+      toast.error(error)
+    } finally {
+      setPassword('');
+      setPasswordConfirmation('');
+    }
+  }
+
   return (
     <MainComponent>
       <Menu tab="personal_data" />
 
-      <Form className={styles.form}>
+      <Form
+        className={styles.form}
+        onSubmit={handleFormSubmit}
+      >
         <BlueBackground>
           <div>
             <strong className="d-block">Leonardo Scorza</strong>
@@ -32,7 +77,15 @@ const Profile: React.FC = () => {
                 </small>
                 <Form.Group className="p-4">
                   <Form.Label>Nome</Form.Label>
-                  <Form.Control placeholder="Nome de exibição" className={styles.input_background} />
+                  <Form.Control
+                    placeholder="Nome de exibição"
+                    className={styles.input_background}
+                    value={name}
+                    onChange={
+                      (evt: React.ChangeEvent<HTMLInputElement>) =>
+                        setName(evt.target.value)
+                    }
+                  />
                 </Form.Group>
               </div>
             </Col>
@@ -50,17 +103,44 @@ const Profile: React.FC = () => {
               <div className="pl-4 pr-4 pt-3">
                 <Form.Group>
                   <Form.Label>E-mail</Form.Label>
-                  <Form.Control placeholder="E-mail" className={styles.input_background} type="email" />
+                  <Form.Control
+                    placeholder="E-mail"
+                    type="email"
+                    className={styles.input_background}
+                    value={email}
+                    onChange={
+                      (evt: React.ChangeEvent<HTMLInputElement>) =>
+                        setEmail(evt.target.value)
+                    }
+                  />
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>Senha</Form.Label>
-                  <Form.Control placeholder="Senha" className={styles.input_background} type="password" />
+                  <Form.Control
+                    placeholder="Nova Senha"
+                    type="password"
+                    className={styles.input_background}
+                    value={password}
+                    onChange={
+                      (evt: React.ChangeEvent<HTMLInputElement>) =>
+                        setPassword(evt.target.value)
+                    }
+                  />
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>Repetir Senha</Form.Label>
-                  <Form.Control placeholder="Repetir Senha" className={styles.input_background} type="password" />
+                  <Form.Control
+                    placeholder="Repetir Senha"
+                    type="password"
+                    className={styles.input_background}
+                    value={passwordConfirmation}
+                    onChange={
+                      (evt: React.ChangeEvent<HTMLInputElement>) =>
+                        setPasswordConfirmation(evt.target.value)
+                    }
+                  />
                 </Form.Group>
               </div>
             </Col>
@@ -80,4 +160,4 @@ const Profile: React.FC = () => {
   );
 }
 
-export default Profile;
+export default withAuth(Profile);
