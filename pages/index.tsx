@@ -3,15 +3,24 @@ import { Carousel } from 'react-bootstrap';
 import styles from './styles.module.css';
 import HighlightedProducts from '../components/Storefront/HighlightedProducts';
 import { toast } from 'react-toastify'
+import HomeIndexData from '../dtos/HomeIndexData';
 
 import useSwr from 'swr'
 import HomeService from '../services/home'
 
 import { useRouter } from 'next/router';
 
-const Storefront: React.FC = () => {
-  const { data, error } = useSwr('/storefront/v1/home', HomeService.index);
-  const { featured, last_releases, cheapest } = { ...data };
+interface StoreFrontProps {
+  products: HomeIndexData;
+}
+
+const Storefront: React.FC<StoreFrontProps> = ({ products }) => {
+  const { data, error } = useSwr(
+    '/storefront/v1/home',
+    HomeService.index, { initialData: products }
+  );
+
+  const { featured, last_releases, cheapest } = data
 
   const router = useRouter();
 
@@ -81,6 +90,11 @@ const Storefront: React.FC = () => {
       />
     </MainComponent>
   )
+}
+
+export async function getStaticProps(context) {
+  const products = await HomeService.index('/storefront/v1/home');
+  return { props: { products } }
 }
 
 export default Storefront;
