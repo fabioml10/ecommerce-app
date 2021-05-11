@@ -48,7 +48,7 @@ api.interceptors.response.use(res => {
 
     // caso a response tenha um status de não autorizado ou acesso negado, o usuário será redirecionado para o login.
     if (err.response && (err.response.status === 401 || err.response.status === 403)) {
-      Router.push('/Auth/Login');
+      Router.push('/auth/login');
     }
 
     throw err;
@@ -58,7 +58,12 @@ api.interceptors.request.use(req => {
   req.headers = { ContentType: 'application/json' }
 
   if (req.url.includes('admin')) {
-    const apiData: ApiData = JSON.parse(Cookie.get('@api-data'));
+    const apiDataCookie = Cookie.get('@api-data');
+
+    if (!apiDataCookie) return req
+
+    const apiData: ApiData = JSON.parse(apiDataCookie);
+
     req.headers = { ...apiData, ...req.headers };
   }
 

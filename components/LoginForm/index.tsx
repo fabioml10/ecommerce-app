@@ -56,9 +56,15 @@ const LoginForm: React.FC<LoginProps> = ({ titlePhrase, buttonPhrase }) => {
       // seta, no redux, o user
       dispatch(setLoggedUser(user));
 
-      toast.info('Login realizado com sucesso!');
+      toast.info('Login realizado com sucesso!')
+
       // Redireciona o user
-      router.push(user.profile === 'admin' ? '/admin/' : '/')
+      if (router.query.callback) {
+        router.push(decodeURIComponent(router.query.callback.toString()))
+      } else {
+        router.push(user.profile === 'admin' ? '/admin' : '/')
+      }
+
     } catch (err) {
       // TODO: message from API?
       toast.error('E-mail ou senha inválidos!');

@@ -6,19 +6,16 @@ import AuthState from '../../dtos/AuthState'
 import User from '../../dtos/User'
 import ApiData from '../../dtos/ApiData'
 
-const withAuthAdmin = (Component) => {
+const withAuth = (Component) => {
   const Auth = (props) => {
-    const router = useRouter();
-    const loggedUser: User = useSelector((state: AuthState) => state.auth.loggedUser);
+    const router = useRouter()
+    const loggedUser: User = useSelector((state: AuthState) => state.auth.loggedUser)
 
-    const apiDataCookie = Cookie.get('@api-data')
+    const apiDataCookie = Cookie.get('@api-date')
+
     const apiData: ApiData = apiDataCookie ? JSON.parse(apiDataCookie) : null
 
-    if (!loggedUser ||
-      loggedUser.profile !== 'admin' ||
-      !apiData ||
-      !apiData['access-token'] ||
-      apiData['access-token'] === '') {
+    if (!loggedUser || !apiData || !apiData['access-token'] || apiData['access-token'] === '') {
       router.push({
         pathname: 'auth/login',
         query: {
@@ -27,15 +24,14 @@ const withAuthAdmin = (Component) => {
       })
     }
 
-    return <Component {...props} />;
+    return <Component {...props} />
   }
 
-  // Server side rendering
   if (Component.getServerSideProps) {
-    Auth.getServerSideProps = Component.getServerSideProps;
+    Auth.getServerSideProps = Component.getServerSideProps
   }
 
   return Auth
 }
 
-export default withAuthAdmin
+export default withAuth
