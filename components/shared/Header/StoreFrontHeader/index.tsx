@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import { Row, Col, InputGroup, FormControl } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faShoppingCart, faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import ProductSearchService from '../../../../util/ProductSearchService';
 import Logo from '../../Logo'
-import Link from 'next/link'
-
 import { useRouter } from 'next/router';
+
 import styles from './styles.module.css'
 
+import LoggedService from '../../../../util/LoggedService';
 
 const StoreFrontHeader: React.FC = () => {
   const [search, setSearch] = useState('');
@@ -17,8 +16,14 @@ const StoreFrontHeader: React.FC = () => {
 
   const handleSearch = (): void => {
     router.push(`
-        /Search?search=${search}&lentgh=12&page=1&order=price&direction=asc
+        /search?search=${search}&lentgh=12&page=1&order=price&direction=asc
     `);
+  }
+
+  const handleUserRedirect = (): void => {
+    router.push(
+      LoggedService.execute() ? '/profile' : 'auth/admin'
+    );
   }
 
   return (
@@ -50,17 +55,23 @@ const StoreFrontHeader: React.FC = () => {
           <Col md={6}>
             <Row>
               <Col>
-                <FontAwesomeIcon icon={faSearch} color="var(--color-gray-ligth)"></FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  color="var(--color-gray-ligth)"
+                />
               </Col>
               <Col>
-                <FontAwesomeIcon icon={faShoppingCart} color="var(--color-gray-ligth)"></FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faShoppingCart}
+                  color="var(--color-gray-ligth)"
+                />
               </Col>
               <Col>
-                <Link href="auth/login">
-                  <a>
-                    <FontAwesomeIcon icon={faUserCircle} color="var(--color-gray-ligth)"></FontAwesomeIcon>
-                  </a>
-                </Link>
+                <FontAwesomeIcon
+                  icon={faUserCircle}
+                  color="var(--color-gray-light)"
+                  onClick={handleUserRedirect}
+                />
               </Col>
             </Row>
           </Col>
