@@ -32,7 +32,7 @@ const List: React.FC = () => {
 
   const { data, error, mutate } = useSWR(url, CategoriesService.index);
 
-  // obendo o estado de pesquisa do redux para observá-lo e a cada mudanção mudar o estado local url
+  // obento o estado de pesquisa do redux para observá-lo e a cada mudanção mudar o estado local url
   const search = useSelector(state => state.search);
 
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const List: React.FC = () => {
     )
   }, [search, router.query.page]);
 
-  // mostrando o motal de remoção e setando o id para remoção da categoria
+  // mostrando o modal de remoção e setando o id para remoção da categoria
   const handleShow = (id: number): void => {
     setShow(true);
     setCategoryToRemove(id);
@@ -73,6 +73,7 @@ const List: React.FC = () => {
 
   // ao clicar no item de edição a categoria selecionada para edição é armazenada no redux e o usuário é redirecionado para a edição
   const handleEdit = (category: Category): void => {
+    console.log('here: ', category)
     dispatch(setCategoryToEdit(category));
     router.push('/admin/categories/edit');
   }
@@ -88,7 +89,7 @@ const List: React.FC = () => {
         title="Categorias"
         path="Dashboard > Categorias"
         icon={faGhost}
-        newPath="/admin/categories/new" />
+        newPath="/Admin/Categories/New" />
 
       <AdminDeleteModal handleClose={handleClose} show={show} target="categoria" />
 

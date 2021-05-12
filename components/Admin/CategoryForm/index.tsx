@@ -2,17 +2,15 @@ import { useState, useEffect } from 'react';
 
 import { Form } from 'react-bootstrap';
 import { faGhost, faTimes } from '@fortawesome/free-solid-svg-icons';
-import StyledButton from '../../shared/StyledButton';
+import StyledButton from '../../../components/shared/StyledButton';
 
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 
+import styles from '../styles.module.css';
 import Category from '../../../dtos/Category';
 
 import { clearCategoryToEdit } from '../../../store/modules/admin/category/reducer';
-
-import styles from '../styles.module.css';
-
 
 // para que possamos reutilizar o form, necessitaremos de receber o método que será executado quando form for submetido (um para a criação e outro para a atualização da categoria) e também o texto do botão de confirmação (action) que é opcional
 interface CategoryFormProps {
@@ -30,7 +28,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ handleSubmit, action = 'Adi
 
   // checando se a categoria não é vazia e se o a url contem a palavra Edit para setar o valor do nome para a edição.
   useEffect(() => {
-    if (category && router.pathname.includes('Edit')) {
+    if (category && router.pathname.includes('edit')) {
       setName(category.name);
     }
   }, [category]);

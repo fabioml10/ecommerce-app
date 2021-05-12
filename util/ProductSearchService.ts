@@ -16,7 +16,6 @@ const ProductSearchService = {
     order = 'price',
     direction = 'asc'
   }: ProductSearchServiceParams): string {
-    // length = 12 to always fill 3 products rows (in case of 12 or more search results)
     let returnStr = `?length=12&order[${order}]=${direction}`;
 
     if (search) {
@@ -28,11 +27,11 @@ const ProductSearchService = {
     }
 
     if (category) {
-      returnStr += `&category_ids[]=${category}`
+      returnStr += `&category_ids[]=${category}`;
     }
 
     if (price) {
-      let prices = price.toString().split('-')
+      let prices = price.toString().split('-');
       returnStr += `&price[min]=${prices[0]}`;
 
       if (prices.length === 2) {

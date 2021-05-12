@@ -11,7 +11,7 @@ const categorySlice = createSlice({
     },
     clearCategoryToEdit(state: Category) {
       return state = null;
-    },
+    }
   }
 })
 

@@ -54,7 +54,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ handleSubmit, action = 'Adici
 
   // checando se o produto existe e se é a edição do mesmo para que sejam setados os valores que estão salvos no estado do redux no form.
   useEffect(() => {
-    if (product && router.pathname.includes('Edit')) {
+    if (product && router.pathname.includes('edit')) {
       setName(product.name);
       setId(product.id);
       setDescription(product.description);
