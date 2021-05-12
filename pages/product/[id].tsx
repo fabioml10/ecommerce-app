@@ -9,12 +9,16 @@ import StyledButton from '../../components/shared/StyledButton'
 
 import useSwr from 'swr';
 import { useRouter } from 'next/router';
-import ProductShowService from '../../services/productShow';
 
 import { toast } from 'react-toastify';
 import { format, parseJSON } from 'date-fns';
 
 import ProductShowData from '../../dtos/ProductShowData';
+
+import WishlistService from '../../services/wishlist';
+import ProductShowService from '../../services/productShow';
+
+import LoggedService from '../../util/LoggedService';
 
 const Product: React.FC<ProductShowData> = ({ product }) => {
   const router = useRouter();
@@ -27,6 +31,25 @@ const Product: React.FC<ProductShowData> = ({ product }) => {
 
   if (error) {
     toast.error(error);
+  }
+
+  const handleWishitem = async (): Promise<void> => {
+    if (LoggedService.execute()) {
+      try {
+        await WishlistService.add(data?.id);
+        toast.info('Adicionado a sua lista de desejos!');
+      } catch (error) {
+        toast.error(error)
+      }
+      // return;
+    } else {
+      router.push({
+        pathname: '/auth/login',
+        query: {
+          callback: router.pathname.replace('[id]', data?.id.toString())
+        }
+      });
+    }
   }
 
   return (
@@ -113,7 +136,13 @@ const Product: React.FC<ProductShowData> = ({ product }) => {
 
             <Row className="mt-4 text-center">
               <Col>
-                <StyledButton icon={faHeart} action={"Favoritar"} type_button="red" className={styles.gray_button} />
+                <StyledButton
+                  icon={faHeart}
+                  action={"Favoritar"}
+                  type_button="red"
+                  className={styles.gray_button}
+                  onClick={handleWishitem}
+                />
               </Col>
 
               <Col>
